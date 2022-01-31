@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>FTC - Examen</title>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+
+    <body onload="mostrarListas()">
+        <header>
+            <h1>Francisco Tovar Clorio</h1>
+            <h2>Examen</h2>
+        </header>
+        <div class="main_box">
+            <div class="second_main_box">
+                <div class="user_info">
+                    <div id="txt_nombre" class="nombre">Nombre</div>
+                    <div id="txt_genero" class="genero">Género</div>
+                </div>
+                <div class="tables">
+                    <div id="tbl_preferencias" class="tbls">
+                        <div class="encabezados">Preferencias:</div>
+                        <div class="items_container">
+                            <!--Lista de Preferencias-->
+                            <div class="ul" id="idPreferencias"></div>
+                        </div>
+                    </div>
+                    <div id="tbl_disponibles" class="tbls">
+                        <div class="encabezados">Disponibles:</div>
+                        <div class="items_container">
+                            <!--Lista de Disponibles-->
+                            <div class="ul" id="idDisponibles"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn_container">
+                    <div class="btn_guardar">
+                        <div class="txt_btn_guardar" onclick="fnGuardar()">
+                            Guardar Cambios
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="respuestaBD"></footer>
+        <script src="js/scripts.js"></script>
+        <script>
+            function fnGuardar(){
+                obtenerId();
+                console.log(id);
+                crearJson();
+                console.log(dataJson);
+                console.log(dataString);
+                fnAjax();
+            }
+
+            function fnAjax(){
+                const http = new XMLHttpRequest();
+                const url = `http://localhost/examen_p2/examen_p2.php?id=${id}&data=${dataString}`;
+                console.log(url);
+                http.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        console.log(this.responseText);
+                        document.getElementById("respuestaBD").innerHTML = "Se agregó registro...";
+                    }
+                }
+
+                http.open("GET", url);
+                http.send();
+            }
+        </script>
+    </body>
+</html>
